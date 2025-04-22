@@ -2,8 +2,12 @@
 #pragma once
 #include "httplib.h"
 #include "sqlite3.h"
+#include "incbin_common.h"
 #include <string>
 #include <nlohmann/json.hpp>
+
+INCTXT_EXTERN(index_html);
+INCTXT_EXTERN(main_js);
 
 using json = nlohmann::json;
 
@@ -45,13 +49,11 @@ inline void start_server() {
     });
 
     svr.Get("/", [&](const Request&, Response& res) {
-        extern const unsigned char index_html_start[], index_html_end[];
-        res.set_content(std::string((char*)index_html_start, index_html_end - index_html_start), "text/html");
+        res.set_content(std::string(g_index_html_data), "text/html");
     });
 
     svr.Get("/main.js", [&](const Request&, Response& res) {
-        extern const unsigned char main_js_start[], main_js_end[];
-        res.set_content(std::string((char*)main_js_start, main_js_end - main_js_start), "application/javascript");
+        res.set_content(std::string(g_main_js_data), "application/javascript");
     });
 
     svr.listen("localhost", 3001);
