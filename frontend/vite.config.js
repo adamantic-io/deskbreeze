@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: '../qt-app/www',
+    outDir: '../app/www',
     emptyOutDir: true,
     rollupOptions: {
       output: {
