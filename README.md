@@ -8,35 +8,46 @@ A bare-bones C++ & React all-in-one back-and-frontend for desktop applications
 3. Ensure `CMake` (version 3.15 or later) is installed.
 4. Install `git` for cloning the repository.
 
-## Dependencies
-To install the required dependencies, follow these steps:
 
-### On Linux:
+## Platform Support
+
+### Linux (GTK WebKit)
 ```bash
-sudo apt update
-sudo apt install qt6-base-dev qt6-webengine-dev libsqlite3-dev
+# Install dependencies on Ubuntu/Debian:
+sudo apt-get install libgtk-3-dev libwebkit2gtk-4.0-dev libsqlite3-dev
+
+# Install dependencies on Fedora/RHEL:
+sudo dnf install gtk3-devel webkit2gtk3-devel sqlite-devel
 ```
 
-### On macOS:
-1. Install Homebrew if not already installed: [Homebrew](https://brew.sh/)
-2. Use Homebrew to install dependencies:
+### macOS (WKWebView)
+- Uses native WKWebView framework
+- Install Homebrew if not already installed: [Homebrew](https://brew.sh/)
+- Use Homebrew to install other dependencies:
     ```bash
-    brew install qt sqlite
+    brew install sqlite
     ```
 
-### On Windows:
-1. Download and install the Qt framework from [Qt Downloads](https://www.qt.io/download).
-2. Ensure `sqlite3` is included in your environment or install it via a package manager like [vcpkg](https://github.com/microsoft/vcpkg):
+- No additional dependencies required
+
+### Windows (WebView2)
+- Uses Microsoft WebView2 runtime
+- WebView2 is included with Windows 11 and newer Windows 10 versions
+- For older systems, WebView2 runtime will be installed automatically
+- Ensure `sqlite3` is included in your environment or install it via a package manager like [vcpkg](https://github.com/microsoft/vcpkg):
     ```bash
     vcpkg install sqlite3
 
     ```
 
+### On Windows:
+1. Download and install the Qt framework from [Qt Downloads](https://www.qt.io/download).
+
 ## Build Steps
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/PetStoreQt.git
-    cd PetStoreQt
+    git clone https://github.com/adamantic-io/deskbreeze.git
+    cd deskbreeze
     ```
 
 2. Create a build directory:

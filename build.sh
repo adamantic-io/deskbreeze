@@ -1,13 +1,20 @@
 #!/bin/bash
+
+# Build script for WebView-based DeskBreeze app
+
 set -e
 
-# Bootstrap vcpkg if missing
-if [ ! -d ".vcpkg" ]; then
-  echo "Cloning vcpkg..."
-  git clone https://github.com/microsoft/vcpkg.git .vcpkg
-  ./.vcpkg/bootstrap-vcpkg.sh
-fi
+echo "Building DeskBreeze WebView App..."
 
-echo "Running CMake with vcpkg toolchain..."
-cmake -Bbuild -S. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$PWD/.vcpkg/scripts/buildsystems/vcpkg.cmake
-cmake --build build -j$(nproc)
+# Create build directory
+mkdir -p build
+cd build
+
+# Configure cmake
+cmake .. -DCMAKE_BUILD_TYPE=Release
+
+# Build the project
+make -j$(nproc)
+
+echo "Build completed successfully!"
+echo "Executable: $(pwd)/app/DeskBreezeWebView"

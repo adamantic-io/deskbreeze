@@ -1,6 +1,6 @@
 
 cmake_minimum_required(VERSION 3.14)
-project(PetStoreAllInOneSmart)
+project(DeskBreezeWebView)
 
 add_custom_target(react_build ALL
     COMMAND npm install
@@ -20,9 +20,8 @@ add_custom_target(react_build ALL
 #     DEPENDS ${CMAKE_SOURCE_DIR}/qt-app/embedded_assets.cpp
 # )
 
-add_subdirectory(qt-app)
-add_dependencies(PetStoreQtAllInOne react_build)
-# add_dependencies(PetStoreQtAllInOne generate_embedded)
+add_subdirectory(app)
+add_dependencies(DeskBreezeWebView react_build)
 
 include(InstallRequiredSystemLibraries)
 set(CPACK_GENERATOR "TGZ;ZIP")
