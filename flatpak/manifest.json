@@ -1,0 +1,26 @@
+
+{
+  "id": "com.example.Deskbreeze",
+  "runtime": "org.kde.Platform",
+  "runtime-version": "6.5",
+  "sdk": "org.kde.Sdk",
+  "command": "Deskbreeze",
+  "finish-args": [
+    "--share=network",
+    "--socket=x11",
+    "--socket=wayland",
+    "--filesystem=home"
+  ],
+  "modules": [
+    {
+      "name": "deskbreeze",
+      "buildsystem": "cmake",
+      "sources": [
+        {
+          "type": "dir",
+          "path": ".."
+        }
+      ]
+    }
+  ]
+}
