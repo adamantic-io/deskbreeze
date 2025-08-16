@@ -1,0 +1,20 @@
+{
+    "dependencies": [
+        {
+            "name": "sqlite3"
+        },
+        {
+            "name": "nlohmann-json"
+        },
+        {
+            "name": "cpp-httplib"
+        },
+        {
+            "name": "libzip"
+        },        {
+            "name": "spdlog"
+        }
+    ]
+}
+
+   

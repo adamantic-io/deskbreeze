@@ -10,7 +10,21 @@
 #include "webview_windows.hpp"
 #endif
 
+
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#
+inline void init_logging() {
+    auto console = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    auto logger  = std::make_shared<spdlog::logger>("app", spdlog::sinks_init_list{console});
+    spdlog::set_default_logger(logger);
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v");
+    spdlog::set_level(spdlog::level::debug); // overridden by SPDLOG_ACTIVE_LEVEL at compile-time
+}
+
 int main(int argc, char *argv[]) {
+    init_logging();
+    spdlog::info("Starting DeskBreeze WebView application...");
     // Start HTTP server in background thread
     std::thread server_thread([]() {
         start_server();

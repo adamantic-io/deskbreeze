@@ -1,0 +1,14 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#e3f2fd" rx="15"/>
+  <ellipse cx="150" cy="150" rx="60" ry="35" fill="#ff9800"/>
+  <circle cx="135" cy="140" r="4" fill="#2c3e50"/>
+  <ellipse cx="90" cy="150" rx="15" ry="25" fill="#ff9800"/>
+  <ellipse cx="150" cy="120" rx="20" ry="12" fill="#ffb74d"/>
+  <ellipse cx="150" cy="180" rx="20" ry="12" fill="#ffb74d"/>
+  <path d="M210 130 Q230 120 225 140 Q230 160 210 150 Q215 140 210 130" fill="#ff9800"/>
+  <path d="M120 100 Q100 90 110 110 Q90 120 120 115 Q110 105 120 100" fill="#ffb74d"/>
+  <circle cx="80" cy="80" r="3" fill="#64b5f6" opacity="0.7"/>
+  <circle cx="90" cy="70" r="2" fill="#64b5f6" opacity="0.5"/>
+  <circle cx="220" cy="90" r="4" fill="#64b5f6" opacity="0.6"/>
+  <text x="150" y="280" text-anchor="middle" font-family="Arial" font-size="16" fill="#2c3e50">Goldfish</text>
+</svg>

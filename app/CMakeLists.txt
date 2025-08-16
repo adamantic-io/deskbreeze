@@ -1,11 +1,14 @@
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/.vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+
 cmake_minimum_required(VERSION 3.14)
 project(DeskBreezeWebView)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCES
       main.cpp
+      http_server.cpp
       embedded_assets.cpp
 )
 
@@ -85,4 +88,25 @@ elseif(WIN32)
     ole32 oleaut32 user32 gdi32
   )
 endif()
-target_include_directories(DeskBreezeWebView PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_include_directories(DeskBreezeWebView PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR} 
+  ${CMAKE_SOURCE_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/include
+)
+
+find_package(libzip CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE libzip::zip)
+
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+
+find_package(unofficial-sqlite3 CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE unofficial::sqlite3::sqlite3)
+
+find_package(spdlog CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog_header_only) # or spdlog::spdlog (compiled lib) if you prefer
+
+target_compile_definitions(DeskBreezeWebView PRIVATE
+  $<$<CONFIG:Debug>:SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE>
+  $<$<CONFIG:Release>:SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_INFO>
+)

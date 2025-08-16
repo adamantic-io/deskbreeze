@@ -1,0 +1,14 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#fff3cd" rx="15"/>
+  <ellipse cx="150" cy="160" rx="35" ry="45" fill="#f1c40f"/>
+  <circle cx="150" cy="120" r="25" fill="#f39c12"/>
+  <circle cx="145" cy="115" r="3" fill="#2c3e50"/>
+  <circle cx="155" cy="115" r="3" fill="#2c3e50"/>
+  <polygon points="150,125 155,130 145,130" fill="#e67e22"/>
+  <ellipse cx="120" cy="135" rx="8" ry="15" fill="#f1c40f" transform="rotate(-20 120 135)"/>
+  <ellipse cx="180" cy="135" rx="8" ry="15" fill="#f1c40f" transform="rotate(20 180 135)"/>
+  <ellipse cx="130" cy="200" rx="6" ry="12" fill="#e67e22"/>
+  <ellipse cx="170" cy="200" rx="6" ry="12" fill="#e67e22"/>
+  <path d="M175 150 Q190 145 185 130" stroke="#f1c40f" stroke-width="4" fill="none"/>
+  <text x="150" y="280" text-anchor="middle" font-family="Arial" font-size="16" fill="#2c3e50">Canary</text>
+</svg>

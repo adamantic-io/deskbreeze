@@ -1,0 +1,16 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#fef5e7" rx="15"/>
+  <circle cx="150" cy="125" r="58" fill="#8b4513"/>
+  <ellipse cx="150" cy="120" rx="25" ry="15" fill="#2c3e50"/>
+  <circle cx="140" cy="115" r="6" fill="#2c3e50"/>
+  <circle cx="160" cy="115" r="6" fill="#2c3e50"/>
+  <ellipse cx="150" cy="130" rx="4" ry="6" fill="#2c3e50"/>
+  <path d="M144 140 Q150 148 156 140" stroke="#2c3e50" stroke-width="3" fill="none"/>
+  <polygon points="120,85 130,60 140,85" fill="#2c3e50"/>
+  <polygon points="160,85 170,60 180,85" fill="#2c3e50"/>
+  <ellipse cx="150" cy="200" rx="42" ry="58" fill="#8b4513"/>
+  <ellipse cx="125" cy="240" rx="11" ry="20" fill="#2c3e50"/>
+  <ellipse cx="175" cy="240" rx="11" ry="20" fill="#2c3e50"/>
+  <path d="M200 140 Q220 130 200 120" stroke="#8b4513" stroke-width="10" fill="none"/>
+  <text x="150" y="280" text-anchor="middle" font-family="Arial" font-size="14" fill="#2c3e50">German Shepherd</text>
+</svg>
