@@ -1,4 +1,6 @@
-build/
 .claude
+
+.flatpak-builder/
+build/
 petstore.db
 vcpkg_installed/

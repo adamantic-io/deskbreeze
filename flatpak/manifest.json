@@ -1,9 +1,14 @@
-
 {
   "id": "com.example.Deskbreeze",
-  "runtime": "org.kde.Platform",
-  "runtime-version": "6.5",
-  "sdk": "org.kde.Sdk",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "47",
+  "sdk": "org.gnome.Sdk",
+  "sdk-extensions": [
+    "org.freedesktop.Sdk.Extension.node20"
+  ],
+  "build-options": {
+    "append-path": "/usr/lib/sdk/node20/bin"
+  },
   "command": "Deskbreeze",
   "finish-args": [
     "--share=network",
@@ -14,13 +19,8 @@
   "modules": [
     {
       "name": "deskbreeze",
-      "buildsystem": "cmake",
-      "sources": [
-        {
-          "type": "dir",
-          "path": ".."
-        }
-      ]
+      "buildsystem": "cmake-ninja",
+      "sources": [{ "type": "dir", "path": ".." }]
     }
   ]
 }
