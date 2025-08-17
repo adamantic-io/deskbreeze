@@ -2,18 +2,33 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/.vcpkg/scripts/buildsystems/vcpkg.
 
 cmake_minimum_required(VERSION 3.14)
 project(DeskBreezeWebView)
-
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+set (EMBEDDED_ASSETS_CPP "${CMAKE_SOURCE_DIR}/app/embedded_assets.cpp")
+add_custom_command(
+    OUTPUT ${EMBEDDED_ASSETS_CPP}
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/scripts/generate_embedded_assets.py
+    DEPENDS ${CMAKE_SOURCE_DIR}/scripts/generate_embedded_assets.py
+    DEPENDS react_build
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMENT "Generating embedded assets"
+)
+
+
 set(SOURCES
       main.cpp
-      http_server.cpp
-      embedded_assets.cpp
+      engine/http_server.cpp
+      own_server.cpp
+      ${EMBEDDED_ASSETS_CPP}
 )
 
 # 1) Define the target first
 add_executable(${PROJECT_NAME} ${SOURCES})
+add_custom_target(generate_assets DEPENDS ${EMBEDDED_ASSETS_CPP})
+add_dependencies(${PROJECT_NAME} generate_assets)
 
 # 2) Platform-specific setup
 if(UNIX AND NOT APPLE)
