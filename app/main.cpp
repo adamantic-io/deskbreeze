@@ -2,6 +2,7 @@
 #include <thread>
 #include <chrono>
 #include "engine/http_server.hpp"
+#include "engine/ipc_handler.hpp"
 #include "common_defs.hpp"
 #include "own_server.hpp"
 
@@ -32,6 +33,61 @@ std::unique_ptr<dbr::Server> make_server() {
     return std::make_unique<OwnServer>();
 }
 
+void setup_ipc_handlers(dbr::ipc::IPCHandlerRegistry& registry) {
+    // System info handler
+    registry.register_handler("system.info", [](const dbr::ipc::IPCMessage& msg) -> dbr::ipc::IPCResponse {
+        nlohmann::json info;
+        info["platform"] = 
+#ifdef __linux__
+            "linux";
+#elif __APPLE__
+            "macos";
+#elif _WIN32
+            "windows";
+#else
+            "unknown";
+#endif
+        info["app"] = "DeskBreeze";
+        info["version"] = "1.0.0";
+        return dbr::ipc::IPCResponse(info, msg.id);
+    });
+    
+    // Application version
+    registry.register_handler("app.version", [](const dbr::ipc::IPCMessage& msg) -> dbr::ipc::IPCResponse {
+        return dbr::ipc::IPCResponse(static_cast<std::string>("1.0.0"), msg.id);
+    });
+    
+    // Echo handler for testing
+    registry.register_handler("echo", [](const dbr::ipc::IPCMessage& msg) -> dbr::ipc::IPCResponse {
+        return dbr::ipc::IPCResponse(msg.params, msg.id);
+    });
+    
+    // Notification handler (just logs for now)
+    registry.register_handler("notification.show", [](const dbr::ipc::IPCMessage& msg) -> dbr::ipc::IPCResponse {
+        if (msg.params.contains("title") && msg.params.contains("message")) {
+            spdlog::info("Notification: {} - {}", msg.params["title"].get<std::string>(), 
+                        msg.params["message"].get<std::string>());
+        }
+        return dbr::ipc::IPCResponse(true, msg.id);
+    });
+    
+    // Window control handlers (placeholders)
+    registry.register_handler("window.minimize", [](const dbr::ipc::IPCMessage& msg) -> dbr::ipc::IPCResponse {
+        spdlog::info("Window minimize requested");
+        return dbr::ipc::IPCResponse(true, msg.id);
+    });
+    
+    registry.register_handler("window.maximize", [](const dbr::ipc::IPCMessage& msg) -> dbr::ipc::IPCResponse {
+        spdlog::info("Window maximize requested");
+        return dbr::ipc::IPCResponse(true, msg.id);
+    });
+    
+    registry.register_handler("window.close", [](const dbr::ipc::IPCMessage& msg) -> dbr::ipc::IPCResponse {
+        spdlog::info("Window close requested");
+        return dbr::ipc::IPCResponse(true, msg.id);
+    });
+}
+
 int main(int argc, char* argv[]) {
     init_logging();
     spdlog::info("Starting DeskBreeze WebView application...");
@@ -54,11 +110,16 @@ int main(int argc, char* argv[]) {
     server->wait_until_ready();
     spdlog::debug("Server started successfully, proceeding to create WebView...");
 
+    // Setup IPC
+    dbr::ipc::IPCHandlerRegistry ipc_registry;
+    setup_ipc_handlers(ipc_registry);
+    spdlog::info("IPC handlers configured");
+
 #ifdef __linux__
-    return webview_gtk_main(argc, argv);
+    return webview_gtk_main(argc, argv, &ipc_registry);
 #elif __APPLE__
-    return webview_cocoa_main();
+    return webview_cocoa_main(&ipc_registry);
 #elif _WIN32
-    return webview_windows_main();
+    return webview_windows_main(&ipc_registry);
 #endif
 }

@@ -117,6 +117,110 @@ function CartProvider({ children }: { children: React.ReactNode }) {
 
 const useCart = () => useContext(CartContext);
 
+// IPC Test Component
+function IPCTest() {
+  const [ipcAvailable, setIpcAvailable] = useState(false);
+  const [testResult, setTestResult] = useState<string>('');
+  const ipc = (window as any).dbr?.ipc;
+
+  useEffect(() => {
+    // Check if running in DeskBreeze webview
+    setIpcAvailable(typeof ipc !== 'undefined');
+  }, []);
+
+  const testEcho = async () => {
+    if (!ipc) {
+      setTestResult('IPC not available - run in DeskBreeze app');
+      return;
+    }
+
+    try {
+      const result = await (ipc.send('echo', { message: 'Hello from React!' }));
+      setTestResult(`Echo result: ${JSON.stringify(result)}`);
+    } catch (error) {
+      setTestResult(`Error: ${error}`);
+    }
+  }
+
+  const testSystemInfo = async () => {
+    if (!ipc) {
+      setTestResult('IPC not available - run in DeskBreeze app');
+      return;
+    }
+
+    try {
+      const result = await (ipc.send('system.info'));
+      setTestResult(`System info: ${JSON.stringify(result, null, 2)}`);
+    } catch (error) {
+      setTestResult(`Error: ${error}`);
+    }
+  };
+
+  const testNotification = async () => {
+    if (!ipc) {
+      setTestResult('IPC not available - run in DeskBreeze app');
+      return;
+    }
+
+    try {
+      await (ipc.send('notification.show', {
+        title: 'Test Notification',
+        message: 'This is a test notification from the React app!'
+      }));
+      setTestResult('Notification sent successfully!');
+    } catch (error) {
+      setTestResult(`Error: ${error}`);
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px', margin: '20px', border: '2px solid #ccc', borderRadius: '10px', backgroundColor: '#f9f9f9' }}>
+      <h3>🔗 IPC Bridge Test</h3>
+      <p><strong>Status:</strong> {ipcAvailable ? '✅ Available' : '❌ Not Available'}</p>
+      <p><em>Note: IPC bridge only works when running in the DeskBreeze GTK WebView, not in a regular browser.</em></p>
+      
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap' }}>
+        <button 
+          onClick={testEcho} 
+          disabled={!ipcAvailable}
+          style={{ padding: '10px 20px', backgroundColor: '#667eea', color: 'white', border: 'none', borderRadius: '5px', cursor: ipcAvailable ? 'pointer' : 'not-allowed' }}
+        >
+          Test Echo
+        </button>
+        
+        <button 
+          onClick={testSystemInfo} 
+          disabled={!ipcAvailable}
+          style={{ padding: '10px 20px', backgroundColor: '#667eea', color: 'white', border: 'none', borderRadius: '5px', cursor: ipcAvailable ? 'pointer' : 'not-allowed' }}
+        >
+          Get System Info
+        </button>
+        
+        <button 
+          onClick={testNotification} 
+          disabled={!ipcAvailable}
+          style={{ padding: '10px 20px', backgroundColor: '#667eea', color: 'white', border: 'none', borderRadius: '5px', cursor: ipcAvailable ? 'pointer' : 'not-allowed' }}
+        >
+          Send Notification
+        </button>
+      </div>
+
+      {testResult && (
+        <div style={{ 
+          padding: '10px', 
+          backgroundColor: ipcAvailable ? '#e8f5e8' : '#ffe8e8', 
+          border: `1px solid ${ipcAvailable ? '#4caf50' : '#f44336'}`, 
+          borderRadius: '5px',
+          fontFamily: 'monospace',
+          whiteSpace: 'pre-wrap'
+        }}>
+          {testResult}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function PetCard({ pet, onAddToCart }: { pet: Pet; onAddToCart: (pet: Pet) => void }) {
   return (
     <div className="pet-card">
@@ -210,6 +314,8 @@ function PetList() {
           <Link to="/orders">Orders</Link>
         </nav>
       </header>
+
+      <IPCTest />
 
       <div className="filters">
         <div className="search-bar">
